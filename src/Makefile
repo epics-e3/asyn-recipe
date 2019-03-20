@@ -255,12 +255,12 @@ endif
 
 #HEADERS += $(VXI11)/drvVxi11.h
 #HEADERS += $(VXI11)/osiRpc.h
-#HEADERS += $(VXI11)/vxi11core.h
-#HEADERS += $(VXI11)/vxi11intr.h
+HEADERS += $(VXI11)/rpc/vxi11core.h
+HEADERS += $(VXI11)/rpc/vxi11intr.h
 #HEADERS += $(VXI11)/vxi11.h
 
-##SOURCES += $(VXI11)/vxi11intr_xdr.c
-SOURCES += $(VXI11)/vxi11core_xdr.c
+SOURCES += $(VXI11)/rpc/vxi11intr_xdr.c
+SOURCES += $(VXI11)/rpc/vxi11core_xdr.c
 SOURCES += $(VXI11)/drvVxi11.c
 SOURCES += $(VXI11)/E5810Reboot.c
 SOURCES += $(VXI11)/E2050Reboot.c
@@ -302,23 +302,8 @@ SCRIPTS += $(wildcard ./iocsh/*.iocsh)
 # For 3.14
 #drvVxi11$(OBJ): ../$(VXI11)/vxi11intr.h
 # For 3.15
-drvVxi11$(DEP): ../$(VXI11)/vxi11intr.h ../$(VXI11)/vxi11core.h
-vxi11core_xdr.c$(DEP): ../$(VXI11)/vxi11core.h
-
-ifdef T_A
-
-.SECONDARY: ../$(VXI11)/vxi11core_xdr.c ../$(VXI11)/vxi11intr_xdr.c
-
-%.h %_xdr.c: %.rpcl
-#	@echo "@ $@"
-#	@echo "EPICS MSI $(MSI3_15)"
-#	@echo "EPICS PERL $(PERL)"
-#	@echo "$(DBTORECORDTYPEH)"
-	cp $< .
-	rpcgen $*.rpcl
-
-endif
-
+#drvVxi11$(DEP): ../$(VXI11)/vxi11intr.h ../$(VXI11)/vxi11core.h
+#vxi11core_xdr.c$(DEP): ../$(VXI11)/vxi11core.h
 
 
 $(DBDINC_DEPS): $(DBDINC_HDRS)
