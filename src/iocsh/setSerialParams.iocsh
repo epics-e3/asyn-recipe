@@ -1,0 +1,17 @@
+#- ###        copy setSerialParams.iocsh           ###
+#- ###        from epics-modules/ip/iocsh          ###
+#- ###################################################
+#- BAUD=baudrate, BITS=data bits, STOP=stop bits, 
+#- PARITY=none/odd/even, HANDSHAKE=none/hardware
+#- ###################################################
+#- Usage in e3
+#- iocshLoad("$(asyn_DIR)/setSerialParams.iocsh", "PORT=$(PORT), BAUD=9600, BITS=7, STOP=2, PARITY=odd")
+
+asynSetOption("$(PORT)", -1, "baud",    "$(BAUD=9600)")
+asynSetOption("$(PORT)", -1, "bits",    "$(BITS=8)")
+asynSetOption("$(PORT)", -1, "stop",    "$(STOP=1)")
+asynSetOption("$(PORT)", -1, "parity",  "$(PARITY=none)")
+
+#clocal=Y is software handshaking, clocal=N is hardware handshaking
+iocshRun('asynSetOption("$(PORT)", -1, "clocal",  "$(VALUE_$(HANDSHAKE=none)=Y)"', "VALUE_hardware=N") 
+asynSetOption("$(PORT)", -1, "crtscts", "N")
