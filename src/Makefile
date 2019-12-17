@@ -1,6 +1,6 @@
 #
 #  Copyright (c) 2017 - 2019  Jeong Han Lee
-#  Copyright (c) 2017 - Present  European Spallation Source ERIC
+#  Copyright (c) 2017 - 2019  European Spallation Source ERIC
 #
 #  The program is free software: you can redistribute
 #  it and/or modify it under the terms of the GNU General Public License
@@ -17,11 +17,10 @@
 #
 # Author  : Jeong Han Lee
 # email   : jeonghan.lee@gmail.com
-# Date    : Sunday, March  3 00:11:49 CET 2019
-# version : 0.1.3
+# Date    : Wednesday, September  4 00:01:38 CEST 2019
+# version : 0.1.6
 
-# LEGACY_RSET should be defined before driver.makefile
-# require-ess from 3.0.1
+
 LEGACY_RSET = YES
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -157,12 +156,21 @@ HEADERS += $(MISCELLANEOUS)/asynShellCommands.h
 HEADERS += $(MISCELLANEOUS)/asynInterposeCom.h
 HEADERS += $(MISCELLANEOUS)/asynInterposeEos.h
 HEADERS += $(MISCELLANEOUS)/asynInterposeFlush.h
+
 SOURCES += $(MISCELLANEOUS)/asynShellCommands.c
 SOURCES += $(MISCELLANEOUS)/asynInterposeCom.c
 SOURCES += $(MISCELLANEOUS)/asynInterposeEos.c
 SOURCES += $(MISCELLANEOUS)/asynInterposeFlush.c
 
 
+# From R4-36 : show two new files such as
+# SOURCES += $(MISCELLANEOUS)/asynInterposeDelay.c
+# SOURCES += $(MISCELLANEOUS)/asynInterposeEcho.c
+# We have to use the following tricks to keep the backward compatibility.
+asynInterposeDelay_src += $(MISCELLANEOUS)/asynInterposeDelay.c
+SOURCES += $(filter $(asynInterposeDelay_src), $(wildcard $(MISCELLANEOUS)/*.c))
+asynInterposeEcho_src += $(MISCELLANEOUS)/asynInterposeEcho.c
+SOURCES += $(filter $(asynInterposeEcho_src), $(wildcard $(MISCELLANEOUS)/*.c))
 
 #
 HEADERS += $(ASYNPORTDRIVER)/exceptions/ParamListInvalidIndex.h
