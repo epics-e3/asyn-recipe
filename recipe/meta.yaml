@@ -23,7 +23,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - libusb
+    - libusb      # [not ppc64]
     - epics-base
     - require
 
