@@ -1,6 +1,7 @@
 #
-#  Copyright (c) 2017 - 2019  Jeong Han Lee
-#  Copyright (c) 2017 - 2019  European Spallation Source ERIC
+#  Copyright (c) 2020 - Present Simon Rose
+#  Copyright (c) 2017 - 2019    Jeong Han Lee
+#  Copyright (c) 2017 - 2019    European Spallation Source ERIC
 #
 #  The program is free software: you can redistribute
 #  it and/or modify it under the terms of the GNU General Public License
@@ -19,6 +20,64 @@
 # email   : jeonghan.lee@gmail.com
 # Date    : Wednesday, September  4 00:01:38 CEST 2019
 # version : 0.1.6
+#
+# Author  : Simon Rose
+# email   : simon.rose@ess.eu
+# Date    : Monday, July 6 2020
+# version : 4.39.0
+#
+# Author  : Wayne Lewis
+# email   : wayne.lewis@ess.eu
+# Date    : 2020-07015
+# version : 4.37.0
+
+
+##################################################
+#
+# From R.4.37+:
+#
+# In order to compile the generated devEpics.dbd (which is done in RULES.Db), we need to define
+# $(DBDCAT) and $(devEpics_DBD) before we include that file, i.e. before we include driver.makefile.
+#
+##################################################
+
+ASYN = asyn
+
+DEVGPIB:=$(ASYN)/devGpib
+VXI11:=$(ASYN)/vxi11
+ASYNRECORD:=$(ASYN)/asynRecord
+DEVEPICS:=$(ASYN)/devEpics
+ASYNPORTCLIENT:=$(ASYN)/asynPortClient
+ASYNPORTDRIVER:=$(ASYN)/asynPortDriver
+MISCELLANEOUS:=$(ASYN)/miscellaneous
+INTERFACES:=$(ASYN)/interfaces
+DRVASYNSERIAL:=$(ASYN)/drvAsynSerial
+ASYNGPIB:=$(ASYN)/asynGpib
+ASYNDRIVER:=$(ASYN)/asynDriver
+
+
+DBDCAT += devEpics.dbd 
+
+devEpics_DBD += $(DEVEPICS)/devAsynOctet.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt32.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt8Array.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt16Array.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt32Array.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt32TimeSeries.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynUInt32Digital.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynFloat64.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynFloat32Array.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynFloat64Array.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynFloat64TimeSeries.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt64.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt64Array.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt64TimeSeries.dbd
+
+# 3.15 and above support lsi, lso and printf records
+#devEpics_DBD += $(DEVEPICS)/devAsynOctetLs.dbd
+
+# If we include calc and sscan in the asyn build, then uncomment these lines.
+#devEpics_DBD += $(DEVEPICS)/asynCalc.dbd
 
 
 LEGACY_RSET = YES
@@ -33,26 +92,16 @@ USR_CFLAGS   += -Wno-unused-but-set-variable
 USR_CPPFLAGS += -Wno-unused-variable
 USR_CPPFLAGS += -Wno-unused-function
 USR_CPPFLAGS += -Wno-unused-but-set-variable
+  
+USR_CFLAGS += -DHAVE_DEVINT64
+USR_CXXFLAGS += -DHAVE_DEVINT64
 
+# The following need to be set after driver.makefile is included, as USR_CLFAGS is set to "" in CONFIG_COMMON
+# 3.15 and above support lsi, lso and printf records. 
+#USR_CFLAGS += -DHAVE_LSREC
 
-
-ASYN = asyn
-
-# Default Dependency order of the sources 
-# for the community epics makefile
-# 
-
-DEVGPIB:=$(ASYN)/devGpib
-VXI11:=$(ASYN)/vxi11
-ASYNRECORD:=$(ASYN)/asynRecord
-DEVEPICS:=$(ASYN)/devEpics
-ASYNPORTCLIENT:=$(ASYN)/asynPortClient
-ASYNPORTDRIVER:=$(ASYN)/asynPortDriver
-MISCELLANEOUS:=$(ASYN)/miscellaneous
-INTERFACES:=$(ASYN)/interfaces
-DRVASYNSERIAL:=$(ASYN)/drvAsynSerial
-ASYNGPIB:=$(ASYN)/asynGpib
-ASYNDRIVER:=$(ASYN)/asynDriver
+# If we include calc and sscan in the asyn build, then uncomment these lines.
+#USR_CFLAGS += -DHAVE_CALCMOD
 
 
 USR_INCLUDES += -I$(where_am_I)$(DEVGPIB)
@@ -96,6 +145,8 @@ HEADERS += $(DRVASYNSERIAL)/drvAsynIPServerPort.h
 #
 HEADERS += $(INTERFACES)/asynInt32.h
 HEADERS += $(INTERFACES)/asynInt32SyncIO.h
+HEADERS += $(INTERFACES)/asynInt64.h
+HEADERS += $(INTERFACES)/asynInt64SyncIO.h
 HEADERS += $(INTERFACES)/asynUInt32Digital.h
 HEADERS += $(INTERFACES)/asynUInt32DigitalSyncIO.h
 HEADERS += $(INTERFACES)/asynFloat64.h
@@ -106,6 +157,8 @@ HEADERS += $(INTERFACES)/asynInt16Array.h
 HEADERS += $(INTERFACES)/asynInt16ArraySyncIO.h
 HEADERS += $(INTERFACES)/asynInt32Array.h
 HEADERS += $(INTERFACES)/asynInt32ArraySyncIO.h
+HEADERS += $(INTERFACES)/asynInt64Array.h
+HEADERS += $(INTERFACES)/asynInt64ArraySyncIO.h
 HEADERS += $(INTERFACES)/asynFloat32Array.h
 HEADERS += $(INTERFACES)/asynFloat32ArraySyncIO.h
 HEADERS += $(INTERFACES)/asynFloat64Array.h
@@ -124,13 +177,17 @@ HEADERS += $(INTERFACES)/asynStandardInterfaces.h
 
 
 SOURCES += $(INTERFACES)/asynInt32Base.c
+SOURCES += $(INTERFACES)/asynInt64Base.c
 SOURCES += $(INTERFACES)/asynInt32SyncIO.c
+SOURCES += $(INTERFACES)/asynInt64SyncIO.c
 SOURCES += $(INTERFACES)/asynInt8ArrayBase.c
 SOURCES += $(INTERFACES)/asynInt8ArraySyncIO.c
 SOURCES += $(INTERFACES)/asynInt16ArrayBase.c
 SOURCES += $(INTERFACES)/asynInt16ArraySyncIO.c
 SOURCES += $(INTERFACES)/asynInt32ArrayBase.c
 SOURCES += $(INTERFACES)/asynInt32ArraySyncIO.c
+SOURCES += $(INTERFACES)/asynInt64ArrayBase.c
+SOURCES += $(INTERFACES)/asynInt64ArraySyncIO.c
 SOURCES += $(INTERFACES)/asynUInt32DigitalBase.c
 SOURCES += $(INTERFACES)/asynUInt32DigitalSyncIO.c
 SOURCES += $(INTERFACES)/asynFloat64Base.c
@@ -200,21 +257,12 @@ SOURCES += $(ASYNPORTDRIVER)/asynPortDriver.cpp
 HEADERS += $(ASYNPORTCLIENT)/asynPortClient.h
 SOURCES += $(ASYNPORTCLIENT)/asynPortClient.cpp
 
+# These need to be added after driver.makefile, since it 
+# * writes over DBDS
+# * while in the directory O.$(EPICS_VERSION)_$(T_A) (pass 4), $(COMMON_DIR) already has the prefix ../ included.
 
-
-#
-DBDS      += $(DEVEPICS)/devAsynOctet.dbd
-DBDS      += $(DEVEPICS)/devAsynInt32.dbd
-DBDS      += $(DEVEPICS)/devAsynInt8Array.dbd
-DBDS      += $(DEVEPICS)/devAsynInt16Array.dbd
-DBDS      += $(DEVEPICS)/devAsynInt32Array.dbd
-DBDS      += $(DEVEPICS)/devAsynInt32TimeSeries.dbd
-DBDS      += $(DEVEPICS)/devAsynUInt32Digital.dbd
-DBDS      += $(DEVEPICS)/devAsynFloat64.dbd
-DBDS      += $(DEVEPICS)/devAsynFloat32Array.dbd
-DBDS      += $(DEVEPICS)/devAsynFloat64Array.dbd
-DBDS      += $(DEVEPICS)/devAsynFloat64TimeSeries.dbd
-DBDS      += $(DEVEPICS)/devEpics.dbd
+DBDS += $(devEpics_DBD)
+DBD_SRCS += $(addprefix $(COMMON_DIR)/,$(DBDCAT))
 
 
 TEMPLATES += $(DEVEPICS)/asynInt32TimeSeries.db
@@ -234,6 +282,12 @@ SOURCES   += $(DEVEPICS)/devAsynFloat64.c
 SOURCES   += $(DEVEPICS)/devAsynFloat32Array.c
 SOURCES   += $(DEVEPICS)/devAsynFloat64Array.c
 SOURCES   += $(DEVEPICS)/devAsynFloat64TimeSeries.c
+
+# ESS Supports only Base 7+ in E3
+SOURCES   += $(DEVEPICS)/devAsynInt64.c
+SOURCES   += $(DEVEPICS)/devAsynInt64Array.c
+SOURCES   += $(DEVEPICS)/devAsynInt64TimeSeries.c
+# 
 
 
 DBDINC_SRCS += $(ASYNRECORD)/asynRecord.c
@@ -306,12 +360,17 @@ DBDS    += $(DEVGPIB)/devGpib.dbd
 
 SCRIPTS += $(wildcard ./iocsh/*.iocsh)
 
+asynRecord$(OBJ): $(COMMON_DIR)/asynRecord.h
+
 
 # For 3.14
 #drvVxi11$(OBJ): ../$(VXI11)/vxi11intr.h
 # For 3.15
 #drvVxi11$(DEP): ../$(VXI11)/vxi11intr.h ../$(VXI11)/vxi11core.h
 #vxi11core_xdr.c$(DEP): ../$(VXI11)/vxi11core.h
+
+# Override the default DBDCAT_COMMAND
+$(COMMON_DIR)/devEpics.dbd: DBDCAT_COMMAND = $(PERL) $(TOOLS)/makeIncludeDbd.pl $(devEpics_DBD) $(notdir $@)
 
 
 $(DBDINC_DEPS): $(DBDINC_HDRS)

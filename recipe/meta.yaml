@@ -1,17 +1,17 @@
-{% set version = "4.36.0" %}
+{% set version = "4.37.0" %}
 
 package:
   name: asyn
   version: "{{ version }}"
 
 source:
-  - url: https://github.com/epics-modules/asyn/archive/R4-36.tar.gz
-    sha256: a32fd7f147491341a55086c50fac4c28995381ca3a6653bc65b2eb85b91a855b
+  - url: https://github.com/epics-modules/asyn/archive/R4-37.tar.gz
+    sha256: 8c281beee8dc559c08a115f58159814e63ffb02aa6be668b7ec31ebda9e9545a
   - path: ../src
 
 
 build:
-  number: 1
+  number: 0
   run_exports:
     - {{ pin_subpackage('asyn', max_pin='x.x.x.x') }}
 
