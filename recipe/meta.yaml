@@ -11,7 +11,7 @@ source:
 
 
 build:
-  number: 2
+  number: 3
   run_exports:
     - {{ pin_subpackage('asyn', max_pin='x.x.x.x') }}
 
