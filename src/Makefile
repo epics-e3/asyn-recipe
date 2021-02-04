@@ -119,6 +119,7 @@ USR_INCLUDES += -I$(where_am_I)$(ASYNDRIVER)
 
 #
 HEADERS += $(ASYNDRIVER)/asynDriver.h
+HEADERS += $(ASYNDRIVER)/asynAPI.h
 HEADERS += $(ASYNDRIVER)/epicsInterruptibleSyscall.h
 
 SOURCES += $(ASYNDRIVER)/asynManager.c
@@ -246,6 +247,7 @@ SOURCES += $(ASYNPORTDRIVER)/exceptions/ParamValValueNotChanged.cpp
 
 
 HEADERS += $(ASYNPORTDRIVER)/asynParamType.h
+HEADERS += $(ASYNPORTDRIVER)/asynParamSet.h
 HEADERS += $(ASYNPORTDRIVER)/paramErrors.h
 HEADERS += $(ASYNPORTDRIVER)/asynPortDriver.h
 # paramVal.h is needed only for nds for LLRF
