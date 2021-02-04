@@ -119,6 +119,7 @@ USR_INCLUDES += -I$(where_am_I)$(ASYNDRIVER)
 
 #
 HEADERS += $(ASYNDRIVER)/asynDriver.h
+HEADERS += $(ASYNDRIVER)/asynAPI.h
 HEADERS += $(ASYNDRIVER)/epicsInterruptibleSyscall.h
 
 SOURCES += $(ASYNDRIVER)/asynManager.c
