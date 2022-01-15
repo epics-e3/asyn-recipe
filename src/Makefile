@@ -72,6 +72,7 @@ devEpics_DBD += $(DEVEPICS)/devAsynFloat64TimeSeries.dbd
 devEpics_DBD += $(DEVEPICS)/devAsynInt64.dbd
 devEpics_DBD += $(DEVEPICS)/devAsynInt64Array.dbd
 devEpics_DBD += $(DEVEPICS)/devAsynInt64TimeSeries.dbd
+devEpics_DBD += $(DEVEPICS)/devAsynInt64Misc.dbd
 
 # 3.15 and above support lsi, lso and printf records
 #devEpics_DBD += $(DEVEPICS)/devAsynOctetLs.dbd
