@@ -6,12 +6,12 @@ package:
 
 source:
   - url: https://github.com/epics-modules/asyn/archive/R4-41.tar.gz
-    sha256: f7af1b5caa7c20af8cc88764f64c86b6f0b2edf99e126df591f557bfad44a4da
+    #sha256: f7af1b5caa7c20af8cc88764f64c86b6f0b2edf99e126df591f557bfad44a4da
   - path: ../src
 
 
 build:
-  number: 3
+  number: 4
   run_exports:
     - {{ pin_subpackage('asyn', max_pin='x.x.x.x') }}
 
