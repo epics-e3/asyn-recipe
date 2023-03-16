@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://github.com/epics-modules/asyn/archive/R4-43.tar.gz
-    sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    sha256: 2cd1da9bafc6e09d18992d00797ea4b966d7404be2fb0d309bc3f542e6b3c7ba
   - path: ../src
 
 
