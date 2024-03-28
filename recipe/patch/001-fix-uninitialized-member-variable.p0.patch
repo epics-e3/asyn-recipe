@@ -1,0 +1,13 @@
+diff --git a/asyn/devEpics/devAsynXXXArray.cpp b/asyn/devEpics/devAsynXXXArray.cpp
+index d331ee54..37772c3d 100644
+--- a/asyn/devEpics/devAsynXXXArray.cpp
++++ b/asyn/devEpics/devAsynXXXArray.cpp
+@@ -98,6 +98,7 @@ public:
+                     userCallback qrCallback, INTERRUPT interruptCallback):
+         pRecord_((RECORD_TYPE*) pRecord),
+         lastStatus_(asynSuccess),
++        pInterface_(0),
+         isOutput_(isOutput),
+         ringBuffer_(0),
+         ringHead_(0),
+

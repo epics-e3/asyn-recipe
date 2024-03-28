@@ -8,6 +8,8 @@ source:
   - url: https://github.com/epics-modules/asyn/archive/refs/tags/R4-44-2.tar.gz
     sha256: 47e993aeb300c597fcb0c3df6d3c88b9dd9e9fb90600da84cb2d2dc5b59a31aa
   - path: ../src
+  - patches:
+    - patch/001-fix-uninitialized-member-variable.p0.patch
 
 
 build:
