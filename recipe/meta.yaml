@@ -12,6 +12,7 @@ source:
     - patch/001-fix-uninitialized-member-variable.p0.patch
 
 build:
+  skip: True  # [ppc64]
   number: 0
   run_exports:
     - {{ pin_subpackage('asyn', max_pin='x.x.x.x') }}
