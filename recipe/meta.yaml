@@ -1,4 +1,4 @@
-{% set version = "4.44.2" %}
+{% set version = "4.44.2.rc1" %}
 
 package:
   name: asyn
@@ -10,7 +10,6 @@ source:
   - path: ../src
   - patches:
     - patch/001-fix-uninitialized-member-variable.p0.patch
-
 
 build:
   number: 0
@@ -26,8 +25,8 @@ requirements:
   host:
     - readline
     - libusb      # [not ppc64]
-    - epics-base 7.0.8
-    - require 5.1.0
+    - epics-base
+    - require
 
 test:
   requires:
