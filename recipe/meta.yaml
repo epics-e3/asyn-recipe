@@ -1,4 +1,4 @@
-{% set version = "4.44.2.rc1" %}
+{% set version = "4.44.2" %}
 
 package:
   name: asyn
@@ -13,7 +13,7 @@ source:
 
 build:
   skip: True  # [ppc64]
-  number: 1
+  number: 0
   run_exports:
     - {{ pin_subpackage('asyn', max_pin='x.x.x.x') }}
 
