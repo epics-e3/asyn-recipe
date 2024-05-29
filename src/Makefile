@@ -1,45 +1,6 @@
-#
-#  Copyright (c) 2020 - Present Simon Rose
-#  Copyright (c) 2017 - 2019    Jeong Han Lee
-#  Copyright (c) 2017 - 2019    European Spallation Source ERIC
-#
-#  The program is free software: you can redistribute
-#  it and/or modify it under the terms of the GNU General Public License
-#  as published by the Free Software Foundation, either version 2 of the
-#  License, or any newer version.
-#
-#  This program is distributed in the hope that it will be useful, but WITHOUT
-#  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-#  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-#  more details.
-#
-#  You should have received a copy of the GNU General Public License along with
-#  this program. If not, see https://www.gnu.org/licenses/gpl-2.0.txt
-#
-# Author  : Jeong Han Lee
-# email   : jeonghan.lee@gmail.com
-# Date    : Wednesday, September  4 00:01:38 CEST 2019
-# version : 0.1.6
-#
-# Author  : Simon Rose
-# email   : simon.rose@ess.eu
-# Date    : Monday, July 6 2020
-# version : 4.39.0
-#
-# Author  : Wayne Lewis
-# email   : wayne.lewis@ess.eu
-# Date    : 2020-07015
-# version : 4.37.0
+where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+include $(E3_REQUIRE_TOOLS)/driver.makefile
 
-
-##################################################
-#
-# From R.4.37+:
-#
-# In order to compile the generated devEpics.dbd (which is done in RULES.Db), we need to define
-# $(DBDCAT) and $(devEpics_DBD) before we include that file, i.e. before we include driver.makefile.
-#
-##################################################
 
 ASYN = asyn
 
@@ -56,37 +17,6 @@ ASYNGPIB:=$(ASYN)/asynGpib
 ASYNDRIVER:=$(ASYN)/asynDriver
 
 
-DBDCAT += devEpics.dbd 
-
-devEpics_DBD += $(DEVEPICS)/devAsynOctet.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt32.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt8Array.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt16Array.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt32Array.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt32TimeSeries.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynUInt32Digital.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynFloat64.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynFloat32Array.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynFloat64Array.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynFloat64TimeSeries.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt64.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt64Array.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt64TimeSeries.dbd
-devEpics_DBD += $(DEVEPICS)/devAsynInt64Misc.dbd
-
-# 3.15 and above support lsi, lso and printf records
-#devEpics_DBD += $(DEVEPICS)/devAsynOctetLs.dbd
-
-# If we include calc and sscan in the asyn build, then uncomment these lines.
-#devEpics_DBD += $(DEVEPICS)/asynCalc.dbd
-
-
-LEGACY_RSET = YES
-
-where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-include $(E3_REQUIRE_TOOLS)/driver.makefile
-
-
 USR_CFLAGS   += -Wno-unused-variable
 USR_CFLAGS   += -Wno-unused-function
 USR_CFLAGS   += -Wno-unused-but-set-variable
@@ -99,11 +29,7 @@ USR_CXXFLAGS += -DHAVE_DEVINT64
 
 # The following need to be set after driver.makefile is included, as USR_CLFAGS is set to "" in CONFIG_COMMON
 # 3.15 and above support lsi, lso and printf records. 
-#USR_CFLAGS += -DHAVE_LSREC
-
-# If we include calc and sscan in the asyn build, then uncomment these lines.
-#USR_CFLAGS += -DHAVE_CALCMOD
-
+USR_CFLAGS += -DHAVE_LSREC
 
 USR_INCLUDES += -I$(where_am_I)$(DEVGPIB)
 USR_INCLUDES += -I$(where_am_I)$(VXI11)
@@ -117,26 +43,19 @@ USR_INCLUDES += -I$(where_am_I)$(DRVASYNSERIAL)
 USR_INCLUDES += -I$(where_am_I)$(ASYNGPIB)
 USR_INCLUDES += -I$(where_am_I)$(ASYNDRIVER)
 
-
-#
-HEADERS += $(ASYNDRIVER)/asynDriver.h
 HEADERS += $(ASYNDRIVER)/asynAPI.h
+HEADERS += $(ASYNDRIVER)/asynDriver.h
 HEADERS += $(ASYNDRIVER)/epicsInterruptibleSyscall.h
 
 SOURCES += $(ASYNDRIVER)/asynManager.c
 SOURCES += $(ASYNDRIVER)/epicsInterruptibleSyscall.c
 
-
-#
 HEADERS += $(ASYNGPIB)/asynGpibDriver.h
 SOURCES += $(ASYNGPIB)/asynGpib.c
 
-
-#
 HEADERS += $(DRVASYNSERIAL)/drvAsynSerialPort.h
 SOURCES += $(DRVASYNSERIAL)/drvAsynSerialPort.c
 DBDS    += $(DRVASYNSERIAL)/drvAsynSerialPort.dbd
-
 
 HEADERS += $(DRVASYNSERIAL)/drvAsynIPPort.h
 SOURCES += $(DRVASYNSERIAL)/drvAsynIPPort.c
@@ -144,7 +63,6 @@ SOURCES += $(DRVASYNSERIAL)/drvAsynIPServerPort.c
 DBDS    += $(DRVASYNSERIAL)/drvAsynIPPort.dbd
 HEADERS += $(DRVASYNSERIAL)/drvAsynIPServerPort.h
 
-#
 HEADERS += $(INTERFACES)/asynInt32.h
 HEADERS += $(INTERFACES)/asynInt32SyncIO.h
 HEADERS += $(INTERFACES)/asynInt64.h
@@ -209,7 +127,6 @@ SOURCES += $(INTERFACES)/asynOptionSyncIO.c
 SOURCES += $(INTERFACES)/asynStandardInterfacesBase.c
 
 
-#
 DBDS    += $(MISCELLANEOUS)/asyn.dbd
 HEADERS += $(MISCELLANEOUS)/asynShellCommands.h
 HEADERS += $(MISCELLANEOUS)/asynInterposeCom.h
@@ -221,17 +138,10 @@ SOURCES += $(MISCELLANEOUS)/asynInterposeCom.c
 SOURCES += $(MISCELLANEOUS)/asynInterposeEos.c
 SOURCES += $(MISCELLANEOUS)/asynInterposeFlush.c
 
+# From R4-36 onwards:
+SOURCES += $(MISCELLANEOUS)/asynInterposeDelay.c
+SOURCES += $(MISCELLANEOUS)/asynInterposeEcho.c
 
-# From R4-36 : show two new files such as
-# SOURCES += $(MISCELLANEOUS)/asynInterposeDelay.c
-# SOURCES += $(MISCELLANEOUS)/asynInterposeEcho.c
-# We have to use the following tricks to keep the backward compatibility.
-asynInterposeDelay_src += $(MISCELLANEOUS)/asynInterposeDelay.c
-SOURCES += $(filter $(asynInterposeDelay_src), $(wildcard $(MISCELLANEOUS)/*.c))
-asynInterposeEcho_src += $(MISCELLANEOUS)/asynInterposeEcho.c
-SOURCES += $(filter $(asynInterposeEcho_src), $(wildcard $(MISCELLANEOUS)/*.c))
-
-#
 HEADERS += $(ASYNPORTDRIVER)/exceptions/ParamListInvalidIndex.h
 HEADERS += $(ASYNPORTDRIVER)/exceptions/ParamListParamNotFound.h
 HEADERS += $(ASYNPORTDRIVER)/exceptions/ParamValNotDefined.h
@@ -248,23 +158,33 @@ SOURCES += $(ASYNPORTDRIVER)/exceptions/ParamValValueNotChanged.cpp
 
 
 HEADERS += $(ASYNPORTDRIVER)/asynParamType.h
-HEADERS += $(ASYNPORTDRIVER)/asynParamSet.h
 HEADERS += $(ASYNPORTDRIVER)/paramErrors.h
+HEADERS += $(ASYNPORTDRIVER)/asynParamSet.h
 HEADERS += $(ASYNPORTDRIVER)/asynPortDriver.h
 # paramVal.h is needed only for nds for LLRF
 HEADERS += $(ASYNPORTDRIVER)/paramVal.h
 SOURCES += $(ASYNPORTDRIVER)/paramVal.cpp
 SOURCES += $(ASYNPORTDRIVER)/asynPortDriver.cpp
 
-#
 HEADERS += $(ASYNPORTCLIENT)/asynPortClient.h
 SOURCES += $(ASYNPORTCLIENT)/asynPortClient.cpp
 
-# These need to be added after driver.makefile, since it 
-# * writes over DBDS
-# * while in the directory O.$(EPICS_VERSION)_$(T_A) (pass 4), $(COMMON_DIR) already has the prefix ../ included.
+DBDS += $(DEVEPICS)/devAsynOctet.dbd
+DBDS += $(DEVEPICS)/devAsynInt32.dbd
+DBDS += $(DEVEPICS)/devAsynXXXArray.dbd
+DBDS += $(DEVEPICS)/devAsynInt32TimeSeries.dbd
+DBDS += $(DEVEPICS)/devAsynUInt32Digital.dbd
+DBDS += $(DEVEPICS)/devAsynFloat64.dbd
+DBDS += $(DEVEPICS)/devAsynFloat64TimeSeries.dbd
+DBDS += $(DEVEPICS)/devAsynInt64.dbd
+DBDS += $(DEVEPICS)/devAsynInt64Array.dbd
+DBDS += $(DEVEPICS)/devAsynInt64TimeSeries.dbd
+DBDS += $(DEVEPICS)/devAsynInt64Misc.dbd
+DBDS += $(DEVEPICS)/devAsynOctetLs.dbd
 
-DBDS += $(devEpics_DBD)
+# If we include calc and sscan in the asyn build, then uncomment this line.
+# DBDS += $(DEVEPICS)/asynCalc.dbd
+
 DBD_SRCS += $(addprefix $(COMMON_DIR)/,$(DBDCAT))
 
 
@@ -276,21 +196,16 @@ HEADERS   += $(DEVEPICS)/asynEpicsUtils.h
 SOURCES   += $(DEVEPICS)/devAsynOctet.c
 SOURCES   += $(DEVEPICS)/asynEpicsUtils.c
 SOURCES   += $(DEVEPICS)/devAsynInt32.c
-SOURCES   += $(DEVEPICS)/devAsynInt8Array.c
-SOURCES   += $(DEVEPICS)/devAsynInt16Array.c
-SOURCES   += $(DEVEPICS)/devAsynInt32Array.c
 SOURCES   += $(DEVEPICS)/devAsynInt32TimeSeries.c
 SOURCES   += $(DEVEPICS)/devAsynUInt32Digital.c
 SOURCES   += $(DEVEPICS)/devAsynFloat64.c
-SOURCES   += $(DEVEPICS)/devAsynFloat32Array.c
-SOURCES   += $(DEVEPICS)/devAsynFloat64Array.c
+SOURCES   += $(DEVEPICS)/devAsynXXXArray.cpp
 SOURCES   += $(DEVEPICS)/devAsynFloat64TimeSeries.c
+SOURCES   += $(DEVEPICS)/devEpicsPvt.c
 
 # ESS Supports only Base 7+ in E3
 SOURCES   += $(DEVEPICS)/devAsynInt64.c
-SOURCES   += $(DEVEPICS)/devAsynInt64Array.c
 SOURCES   += $(DEVEPICS)/devAsynInt64TimeSeries.c
-# 
 
 
 DBDINC_SRCS += $(ASYNRECORD)/asynRecord.c
@@ -307,9 +222,8 @@ TEMPLATES += $(ASYNRECORD)/asynRecord.db
 
 
 
-
 ifeq ($(TIRPC),YES)
-ifeq ($(T_A),linux-ppc64e6500)
+ifeq (linux-ppc64e6500, $(findstring linux-ppc64e6500,$(T_A)))
   USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/tirpc
 else
   USR_INCLUDES += -I/usr/include/tirpc
@@ -344,8 +258,8 @@ DRVASYNUSBTMC_SRC:=$(DRVASYNUSBTMC)/drvAsynUSBTMC.c
 DRVASYNUSBTMC_DBD:= $(DRVASYNUSBTMC)/drvAsynUSBTMC.dbd
 
 ifeq ($(DRV_USBTMC),YES)
-ifeq ($(T_A),linux-x86_64)
-  USR_INCLUDES += -I$(PREFIX)/include/libusb-1.0
+ifeq (linux-x86_64, $(findstring linux-x86_64,$(T_A)))
+  USR_INCLUDES += -I/usr/include/libusb-1.0
   USR_LDFLAGS  += -lusb-1.0
   DBD_SRCS += $(DRVASYNUSBTMC_DBD)
   SRCS     += $(DRVASYNUSBTMC_SRC)
@@ -365,16 +279,15 @@ SCRIPTS += $(wildcard ./iocsh/*.iocsh)
 
 asynRecord$(OBJ): $(COMMON_DIR)/asynRecord.h
 
+# asyn.dbd explicitly includes devEpics.dbd, which is used in the usual build process to conditionally
+# include certain other files. We are building a fixed dbd file, so we can just generate a blank one.
 
-# For 3.14
-#drvVxi11$(OBJ): ../$(VXI11)/vxi11intr.h
-# For 3.15
-#drvVxi11$(DEP): ../$(VXI11)/vxi11intr.h ../$(VXI11)/vxi11core.h
-#vxi11core_xdr.c$(DEP): ../$(VXI11)/vxi11core.h
+DBDEXPANDPATH += -I .
 
-# Override the default DBDCAT_COMMAND
-$(COMMON_DIR)/devEpics.dbd: DBDCAT_COMMAND = $(PERL) $(TOOLS)/makeIncludeDbd.pl $(devEpics_DBD) $(notdir $@)
+asyn.dbd: devEpics.dbd
 
+devEpics.dbd:
+	echo "# This is a generated file." > $@
 
 $(DBDINC_DEPS): $(DBDINC_HDRS)
 
@@ -383,11 +296,6 @@ $(DBDINC_DEPS): $(DBDINC_HDRS)
 
 
 
-
-# db rule is the default in RULES_E3, so add the empty one
-
-db:
-#
+.PHONY: vlibs
 vlibs:
-#
-.PHONY: vlibs db
+
