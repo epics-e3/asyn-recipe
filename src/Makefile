@@ -226,7 +226,7 @@ ifeq ($(TIRPC),YES)
 ifeq (linux-ppc64e6500, $(findstring linux-ppc64e6500,$(T_A)))
   USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/tirpc
 else
-  USR_INCLUDES += -I/usr/include/tirpc
+  USR_INCLUDES += -I$(PREFIX)/include/tirpc
 endif
   LIB_SYS_LIBS += tirpc
 endif

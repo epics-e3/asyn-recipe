@@ -5,11 +5,10 @@ LIBVERSION=${PKG_VERSION}
 if [[ "$EPICS_TARGET_ARCH" == "linux-ppc64e6500" ]]
 then
   DRV_USBTMC=NO
-  TIRPC=YES
 else
   DRV_USBTMC=YES
-  TIRPC=NO
 fi
+TIRPC=YES
 
 # Clean between variants builds
 make clean

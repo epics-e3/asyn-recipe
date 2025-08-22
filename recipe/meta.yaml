@@ -28,6 +28,9 @@ requirements:
     - libusb      # [not ppc64]
     - epics-base
     - require
+    - libtirpc
+  run:
+    - libtirpc
 
 test:
   requires:
