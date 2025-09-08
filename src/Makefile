@@ -259,7 +259,6 @@ DRVASYNUSBTMC_DBD:= $(DRVASYNUSBTMC)/drvAsynUSBTMC.dbd
 
 ifeq ($(DRV_USBTMC),YES)
 ifeq (linux-x86_64, $(findstring linux-x86_64,$(T_A)))
-  USR_INCLUDES += -I/usr/include/libusb-1.0
   USR_LDFLAGS  += -lusb-1.0
   DBD_SRCS += $(DRVASYNUSBTMC_DBD)
   SRCS     += $(DRVASYNUSBTMC_SRC)
