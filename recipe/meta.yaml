@@ -1,28 +1,26 @@
-{% set version = "4.44.2" %}
+{% set version = "4.45.0" %}
 
 package:
   name: asyn
   version: "{{ version }}"
 
 source:
-  - url: https://github.com/epics-modules/asyn/archive/refs/tags/R4-44-2.tar.gz
-    sha256: 47e993aeb300c597fcb0c3df6d3c88b9dd9e9fb90600da84cb2d2dc5b59a31aa
+  - url: https://github.com/epics-modules/asyn/archive/refs/tags/R4-45.tar.gz
+    sha256: 1a0c304310709a32c52ba2cfe80976fb0ca9f33c284383eab173329bf5ddf292
   - path: ../src
-  - patches:
-    - patch/001-fix-uninitialized-member-variable.p0.patch
 
 build:
-  skip: True  # [ppc64]
   number: 0
   run_exports:
     - {{ pin_subpackage('asyn', max_pin='x.x.x.x') }}
 
 requirements:
   build:
-    - make
-    - perl
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
+    - make
+    - perl
   host:
     - readline
     - libusb      # [not ppc64]
