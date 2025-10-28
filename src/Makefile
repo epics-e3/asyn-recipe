@@ -204,10 +204,8 @@ DBDS      += $(ASYNRECORD)/devAsynRecord.dbd
 
 TEMPLATES += $(ASYNRECORD)/asynRecord.db
 
-ifeq ($(TIRPC),YES)
-  USR_INCLUDES += -I$(PREFIX)/include/tirpc
-  LIB_SYS_LIBS += tirpc
-endif
+USR_INCLUDES += -I$(PREFIX)/include/tirpc
+LIB_SYS_LIBS += tirpc
 
 HEADERS += $(VXI11)/rpc/vxi11core.h
 HEADERS += $(VXI11)/rpc/vxi11intr.h
@@ -224,11 +222,9 @@ DRVASYNUSBTMC:=$(ASYN)/drvAsynUSBTMC
 DRVASYNUSBTMC_SRC:=$(DRVASYNUSBTMC)/drvAsynUSBTMC.c
 DRVASYNUSBTMC_DBD:= $(DRVASYNUSBTMC)/drvAsynUSBTMC.dbd
 
-ifeq ($(DRV_USBTMC),YES)
-  USR_LDFLAGS  += -lusb-1.0
-  DBD_SRCS += $(DRVASYNUSBTMC_DBD)
-  SRCS     += $(DRVASYNUSBTMC_SRC)
-endif
+USR_LDFLAGS  += -lusb-1.0
+DBD_SRCS += $(DRVASYNUSBTMC_DBD)
+SRCS += $(DRVASYNUSBTMC_SRC)
 
 HEADERS += $(DEVGPIB)/devGpib.h
 HEADERS += $(DEVGPIB)/devSupportGpib.h
