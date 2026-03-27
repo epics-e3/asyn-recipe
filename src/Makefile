@@ -234,8 +234,6 @@ SOURCES += $(DEVGPIB)/devSupportGpib.c
 SOURCES += $(DEVGPIB)/boSRQonOff.c
 DBDS    += $(DEVGPIB)/devGpib.dbd
 
-SCRIPTS += $(wildcard ./iocsh/*.iocsh)
-
 asynRecord$(OBJ): $(COMMON_DIR)/asynRecord.h
 
 # asyn.dbd explicitly includes devEpics.dbd, which is used in the usual build process to conditionally
