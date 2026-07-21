@@ -204,8 +204,12 @@ DBDS      += $(ASYNRECORD)/devAsynRecord.dbd
 
 TEMPLATES += $(ASYNRECORD)/asynRecord.db
 
+# glibc >= 2.26 dropped its built-in SunRPC implementation, so tirpc is
+# required on Linux; macOS still ships native ONC RPC in the SDK.
+ifeq ($(OS_CLASS),Linux)
 USR_INCLUDES += -I$(PREFIX)/include/tirpc
 LIB_SYS_LIBS += tirpc
+endif
 
 HEADERS += $(VXI11)/rpc/vxi11core.h
 HEADERS += $(VXI11)/rpc/vxi11intr.h
