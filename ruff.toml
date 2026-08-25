@@ -1,0 +1,32 @@
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.13
+target-version = "py313"
+
+[lint]
+select = ["ALL"]
+ignore = [
+  "COM812",  # trailing commas
+  "D",       # docstyle
+  "INP001",  # packages missing __init__.py
+  "S101",    # asserts
+  "SIM117",  # nested with-statements
+  "EM102",   # exceptions may not use (f/) string literals
+  "G003",    # `logging` messages uses '+'
+  "ISC001",  # may cause conflicts when used with the formatter
+  "S603",    # untrusted input to `subprocess`
+  "TRY003",  # long messages outside of the exception class
+]
+
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[format]
+# Same as Black.
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
