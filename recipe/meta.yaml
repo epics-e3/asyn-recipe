@@ -34,8 +34,13 @@ requirements:
 test:
   requires:
     - run-iocsh
+    - pytest
+    - p4p
+  source_files:
+    - ./test
   commands:
     - run-iocsh -r asyn
+    - pytest -v test/
 
 about:
   home: https://github.com/epics-modules/asyn
