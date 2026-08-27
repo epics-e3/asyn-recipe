@@ -2,3 +2,5 @@
 .DS_Store
 pkg
 .vscode
+*.pyc
+.iocsh_history

@@ -11,7 +11,7 @@ source:
   - path: ../src
 
 build:
-  number: 4
+  number: 5
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
@@ -34,8 +34,13 @@ requirements:
 test:
   requires:
     - run-iocsh
+    - pytest
+    - p4p
+  source_files:
+    - ./test
   commands:
     - run-iocsh -r asyn
+    - pytest -v test/
 
 about:
   home: https://github.com/epics-modules/asyn

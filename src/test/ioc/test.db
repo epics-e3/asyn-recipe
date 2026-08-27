@@ -1,0 +1,8 @@
+record(stringin, "$(P)Cmd") {
+    field(FLNK, "$(P)Reply")
+}
+
+record(stringin, "$(P)Reply") {
+    field(DTYP, "asynOctetWriteRead")
+    field(INP,  "@asyn($(PORT),$(ADDR)) $(P)Cmd")
+}
